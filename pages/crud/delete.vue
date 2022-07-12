@@ -41,7 +41,7 @@ export default {
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [${this.analysis.schema}].[CMS_${this.analysis.table}_delete] 
+${this.analysis.action} PROCEDURE [${this.analysis.schema}].[CMS_${this.analysis.table}_delete] 
 	-- parameters
 	@_${this.analysis.primary} bigInt, 
 	@_Return int out

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <b-row>
-      <b-col sm="6">
+      <b-col sm="12" md="4">
         <b-form-group
           :label="`Primary key: ${analysis.primary}`"
           v-slot="{ ariaDescribedby }"
@@ -16,7 +16,7 @@
           >
         </b-form-group>
       </b-col>
-      <b-col sm="6">
+      <b-col sm="12" md="4">
         <b-form-group
           :label="`Unique key: ${analysis.unique}`"
           v-slot="{ ariaDescribedby }"
@@ -31,6 +31,21 @@
           >
         </b-form-group>
       </b-col>
+      <b-col sm="12" md="4">
+        <b-form-group
+          :label="`Table action: ${analysis.action}`"
+          v-slot="{ ariaDescribedby }"
+        >
+          <b-form-radio
+            v-for="(item, index) in ['CREATE', 'ALTER']"
+            :key="index"
+            v-model="analysis.action"
+            :aria-describedby="ariaDescribedby"
+            :value="item"
+            >{{ item }}</b-form-radio
+          >
+        </b-form-group>
+      </b-col>
     </b-row>
   </div>
 </template>
@@ -40,6 +55,7 @@ export default {
   data() {
     return {
       analysis: {
+        action: 'CREATE',
         schema: '',
         table: '',
         primary: '',

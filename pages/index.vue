@@ -33,6 +33,7 @@ export default {
     return {
       sql: '',
       analysis: {
+        action: 'CREATE',
         schema: '',
         table: '',
         primary: '',

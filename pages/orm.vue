@@ -38,7 +38,9 @@ export default {
       let result = ''
       if (this.analysis?.columns) {
         result = this.analysis.columns.reduce((previous, current, index) => {
-          if (current.isNull) {
+          if (current.field === 'createdAt' || current.field === 'updatedAt') {
+            return previous
+          } else if (current.isNull) {
             return (
               previous +
               `@IsOptional()

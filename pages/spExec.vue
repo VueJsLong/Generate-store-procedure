@@ -41,7 +41,9 @@ export default {
         result += `const payload = [
 `
         result += this.analysis.columns.reduce((previous, current) => {
-          if (!current.isNull) {
+          if (current.field === 'createdAt' || current.field === 'updatedAt') {
+            return previous
+          } else if (!current.isNull) {
             return (
               previous +
               `     {
@@ -64,9 +66,11 @@ export default {
           if (current.isNull) {
             return (
               previous +
-              `if(dto.${current.field} || (!dto.${current.field} && (dto.${
+              `if(dto.${current.field} || (!dto.${
                 current.field
-              } === 0 || dto.${current.field} === ''))) {
+              } && (Number(dto.${current.field}) === 0 || dto.${
+                current.field
+              } === ''))) {
   payload.push({
     name: '_${current.field}',
     type: sql.${this.mssqlTypeMapping[current.type]},

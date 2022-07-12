@@ -42,7 +42,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[CMS_${this.analysis.table}_insert]
+${this.analysis.action} PROCEDURE [dbo].[CMS_${this.analysis.table}_insert]
 	-- parameters
 	${this.getParams()}
 	@_Return int out
@@ -71,8 +71,12 @@ GO
     getParams() {
       let result = ''
       result += this.analysis.columns.reduce((prev, curr) => {
-        if (curr.field === this.analysis.primary) {
-          return ''
+        if (
+          curr.field === this.analysis.primary ||
+          curr.field === 'createdAt' ||
+          curr.field === 'updatedAt'
+        ) {
+          return prev
         } else if (curr.isNull) {
           return (
             prev +

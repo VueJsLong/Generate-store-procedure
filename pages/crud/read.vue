@@ -41,7 +41,9 @@ export default {
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [${this.analysis.schema}].[CMS_${this.analysis.table}_getAll]
+${this.analysis.action} PROCEDURE [${this.analysis.schema}].[CMS_${
+          this.analysis.table
+        }_getAll]
 	-- Add the parameters for the stored procedure here
   ${this.getParams()}
 	@_page int = 1,
@@ -84,13 +86,21 @@ GO
     getParams() {
       let result = ''
       result += this.analysis.columns.reduce((prev, curr) => {
-        return (
-          prev +
-          `
+        if (
+          curr.field === this.analysis.primary ||
+          curr.field === 'createdAt' ||
+          curr.field === 'updatedAt'
+        ) {
+          return prev
+        } else {
+          return (
+            prev +
+            `
         @_${curr.field} ${curr.type}${
-            curr.length ? '(' + curr.length + ')' : ''
-          } = null,`
-        )
+              curr.length ? '(' + curr.length + ')' : ''
+            } = null,`
+          )
+        }
       }, '')
       return result
     },
@@ -106,7 +116,7 @@ GO
         } else
           return (
             prev +
-            `(ISNULL(@_${curr.field}, '') = '' OR ${curr.field} = @_${curr.field}) AND
+            `(ISNULL(@_${curr.field}, '') = '' OR ${curr.field} LIKE CONCAT('%', @_${curr.field}, '%')) AND
           `
           )
       }, '')

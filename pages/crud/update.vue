@@ -42,7 +42,9 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [${this.analysis.schema}].[CMS_${this.analysis.table}_update]
+${this.analysis.action} PROCEDURE [${this.analysis.schema}].[CMS_${
+          this.analysis.table
+        }_update]
 	-- parameters
 	${this.getParams()}
 	@_Return int out
@@ -70,7 +72,9 @@ GO
     getParams() {
       let result = ''
       result += this.analysis.columns.reduce((prev, curr) => {
-        if (curr.field !== this.analysis.primary) {
+        if (curr.field === 'createdAt' || curr.field === 'updatedAt') {
+          return prev
+        } else if (curr.field !== this.analysis.primary) {
           return (
             prev +
             `
