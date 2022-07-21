@@ -3,7 +3,15 @@ import Vuex from 'vuex'
 const createStore = () => {
   return new Vuex.Store({
     state: {
-      analysis: null,
+      sql: null,
+      analysis: {
+        action: 'CREATE',
+        schema: '',
+        table: '',
+        primary: '',
+        unique: [],
+        columns: [],
+      },
       jsTypeMapping: {
         varchar: 'string',
         nvarchar: 'string',
@@ -25,13 +33,22 @@ const createStore = () => {
       setAnalysis(state, analysis) {
         state.analysis = analysis
       },
+      setSql(state, sql) {
+        state.sql = sql
+      },
     },
     actions: {
       setAnalysis(vuexContext, analysis) {
         vuexContext.commit('setAnalysis', analysis)
       },
+      setSql(vuexContext, sql) {
+        vuexContext.commit('setSql', sql)
+      },
     },
     getters: {
+      getSql(state) {
+        return state.sql
+      },
       getAnalysis(state) {
         return state.analysis
       },

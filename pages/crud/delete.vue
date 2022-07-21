@@ -47,9 +47,10 @@ ${this.analysis.action} PROCEDURE [${this.analysis.schema}].[CMS_${this.analysis
 	@_Return int out
 AS 
 BEGIN TRY
+  -- Check exist
 	IF NOT EXISTS (SELECT TOP(1) 1 FROM [${this.analysis.schema}].[${this.analysis.table}] WHERE ${this.analysis.primary} = @_${this.analysis.primary})
 	BEGIN
-		SET @_Return = -3; -- Khônng ton tai
+		SET @_Return = -3; -- Khong ton tai
 		RETURN
 	END
 

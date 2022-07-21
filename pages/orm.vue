@@ -43,13 +43,17 @@ export default {
           } else if (current.isNull) {
             return (
               previous +
-              `"${current.field}": ${this.jsTypeMapping[current.type]}
+              `@IsOptional()
+${current.field}: ${this.jsTypeMapping[current.type]}
+
 `
             )
           } else {
             return (
               previous +
-              `"${current.field}": ${this.jsTypeMapping[current.type]}
+              `@IsNotEmpty()
+${current.field}: ${this.jsTypeMapping[current.type]}
+
 `
             )
           }

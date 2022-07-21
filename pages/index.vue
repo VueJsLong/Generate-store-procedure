@@ -32,23 +32,22 @@ export default {
   data() {
     return {
       sql: '',
-      analysis: {
-        action: 'CREATE',
-        schema: '',
-        table: '',
-        primary: '',
-        unique: [],
-        columns: [],
-      },
+      analysis: null,
     }
   },
   watch: {
     'analysis.unique'() {
       this.$store.commit('setAnalysis', this.analysis)
     },
+    sql() {
+      this.$store.commit('setSql', this.sql)
+    },
   },
   mounted() {
-    this.sql = `CREATE TABLE [dbo].[expert_translations](
+    if (this.$store.getters.getSql) {
+      this.sql = this.$store.getters.getSql
+    } else {
+      this.sql = `CREATE TABLE [dbo].[expert_translations](
       [expertId] [bigint] NOT NULL,
       [languageId] [bigint] NOT NULL,
       [name] [nvarchar](255) NOT NULL,
@@ -57,6 +56,7 @@ export default {
       [active] [tinyint] NULL,
       [createdAt] [datetime] NOT NULL,
       [updatedAt] [datetime] NOT NULL,`
+    }
 
     if (this.$store.getters.getAnalysis) {
       this.analysis = this.$store.getters.getAnalysis

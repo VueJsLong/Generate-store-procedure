@@ -68,6 +68,9 @@ export default {
     'analysis.unique'() {
       this.$store.commit('setAnalysis', this.analysis)
     },
+    'analysis.primary'() {
+      this.$store.commit('setAnalysis', this.analysis)
+    },
     '$store.state.analysis'() {
       if (this.$store.getters.getAnalysis) {
         this.analysis = this.$store.getters.getAnalysis
